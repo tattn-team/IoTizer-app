@@ -82,5 +82,19 @@ $(document).on('click', '#update', function(){
 
 
 $(document).on('click', '#delete', function(){
-    alert("delete");
+    if(window.confirm('本当に削除しますか？')){
+        // delete content
+        var food = document.getElementById("food-name");
+        document.getElementById(food.className).remove()
+        Contents.equalTo("objectId",food.className)
+          .fetchAll()
+          .then(function(content) {
+            content[0].delete();
+          })
+          .catch(function(err){
+            console.log(err);
+          });
+    }
+    else{
+    }
 });
