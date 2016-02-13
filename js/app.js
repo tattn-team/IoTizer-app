@@ -4,11 +4,13 @@ var name = "";
 var category = "";
 var freshnessDate = "";
 var Contents;
+var Recipe;
 // Set up
 $(function() {
 	$.getJSON("settings.json", function(data) {
-		ncmb = new NCMB(data.application_key, data.client_key);
+	     	ncmb = new NCMB(data.application_key, data.client_key);
         Contents = ncmb.DataStore("Contents");
+        Recipe = ncmb.DataStore("Recipe");
         Contents.equalTo("*")
           .order("name",false)
           .fetchAll()
@@ -59,11 +61,10 @@ $(function() {
             var recipeList = document.getElementById("recipeList");
             var fragment = document.createDocumentFragment();
             for(var cnt=0, len=recipe.length; cnt<len; cnt++ ){
-
                 var $li = document.createElement('li');
                 var $a = document.createElement('a');
                 $a.href = "#recipes";
-                $a.className = 'item-link';
+                $a.className = 'item-link recipe_click';
                 $a.id = recipe[cnt].objectId;
                 var $div1 = document.createElement('div');
                 $div1.className = 'item-content';
@@ -97,11 +98,37 @@ $(document).on('click', '.food_click', function(){
   foodName.className = this.id;
 });
 
+$(document).on('click', '.recipe_click', function(){
+  // clickイベントで発動する処理
+  var recipe_name = $(this).children().children().children().children()[0].innerHTML
+  var recipe = document.getElementById("recipe_block");
+  //update contents
+  Recipe.equalTo("name",recipe_name)
+    .fetchAll()
+    .then(function(recipe) {
+      document.getElementById("recipe_title").innerHTML = recipe_name;
+      document.getElementById("recipe_pic").setAttribute('src',recipe[0].image);
+      var contents = document.getElementById("recipe_contents");
+      var fragment = document.createDocumentFragment();
+      contents.innerHTML = "";
+
+      for(var cnt=0, len=recipe[0].contents.length; cnt<len; cnt++ ){
+          // console.log(recipe[0].contents[cnt][0]);
+          var $li = document.createElement('li');
+          $li.innerHTML = recipe[0].contents[cnt][0] + "・・・"+recipe[0].contents[cnt][1];
+          fragment.appendChild($li);
+      }
+      contents.appendChild(fragment);
+    })
+    .catch(function(err){
+      console.log(err);
+    });
+
+});
 
 $(document).on('click', '#update', function(){
     var food = document.getElementById("food-name");
     document.getElementById(food.className).getElementsByClassName("name")[0].innerHTML = food.value;
-
     //update contents
     Contents.equalTo("objectId",food.className)
       .fetchAll()
