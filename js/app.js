@@ -21,6 +21,7 @@ $(function() {
             $a.href = "#form";
             // $a.setAttribute('onClick', 'clickEvent()');
             $a.className = 'item-link';
+            $a.id = foods[cnt].objectId;
             var $div1 = document.createElement('div');
             $div1.className = 'item-content';
             var $div2 = document.createElement('div');
@@ -53,22 +54,19 @@ $(function() {
       }); 
 	});
 });
+
 $(document).on('click', '.item-link', function(){
   // clickイベントで発動する処理
-  var name = $(this).children().children().children().children()[0].innerHTML;
-  document.getElementById("food-name").value = name;
+  var foodName = document.getElementById("food-name");
+  foodName.value = $(this).children().children().children().children()[0].innerHTML;
+  foodName.className = this.id;
+});
+
+
+$(document).on('click', '#update', function(){
+    var food = document.getElementById("food-name");
+    document.getElementById(food.className).getElementsByClassName("name")[0].innerHTML = food.value;
+
+    
 
 });
-// function clickEvent()
-// {
-//   var foodName = document.getElementById("food-name").value = name;
-//   var foodCategory = document.getElementById("food-category").value = category;
-//   var foodFreshnessday = document.getElementById("food-freshnessdate").value = freshnessDate;
-// }
-
-
-
-function updateContent()
-{
-
-}
