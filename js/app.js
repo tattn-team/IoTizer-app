@@ -20,12 +20,12 @@ $(function() {
                 var $li = document.createElement('li');
                 var $a = document.createElement('a');
                 $a.href = "#form";
-                $a.className = 'item-link';
+                $a.className = 'item-link  food_click';
                 $a.id = foods[cnt].objectId;
                 var $div1 = document.createElement('div');
                 $div1.className = 'item-content';
                 var $div2 = document.createElement('div');
-                $div2.className = 'item-inner food_click';
+                $div2.className = 'item-inner';
                 var $div3 = document.createElement('div');
                 $div3.className = 'item-title';
                 $div3.id = cnt.toString();
@@ -62,7 +62,7 @@ $(function() {
 
                 var $li = document.createElement('li');
                 var $a = document.createElement('a');
-                $a.href = "#recipe_form";
+                $a.href = "#recipes";
                 $a.className = 'item-link';
                 $a.id = recipe[cnt].objectId;
                 var $div1 = document.createElement('div');
