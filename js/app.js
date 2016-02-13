@@ -25,7 +25,7 @@ $(function() {
                 var $div1 = document.createElement('div');
                 $div1.className = 'item-content';
                 var $div2 = document.createElement('div');
-                $div2.className = 'item-inner';
+                $div2.className = 'item-inner food_click';
                 var $div3 = document.createElement('div');
                 $div3.className = 'item-title';
                 $div3.id = cnt.toString();
@@ -51,11 +51,47 @@ $(function() {
           })
           .catch(function(err){
               console.log(err);
-          }); 
+          });
+
+        Recipe = ncmb.DataStore("Recipe");
+        Recipe.equalTo("*")
+          .fetchAll()
+          .then(function(recipe) {
+            var recipeList = document.getElementById("recipeList");
+            var fragment = document.createDocumentFragment();
+            for(var cnt=0, len=recipe.length; cnt<len; cnt++ ){
+
+                var $li = document.createElement('li');
+                var $a = document.createElement('a');
+                $a.href = "#recipe_form";
+                $a.className = 'item-link';
+                $a.id = recipe[cnt].objectId;
+                var $div1 = document.createElement('div');
+                $div1.className = 'item-content';
+                var $div2 = document.createElement('div');
+                $div2.className = 'item-inner';
+                var $div3 = document.createElement('div');
+                $div3.className = 'item-title';
+                $div3.id = cnt.toString();
+                var $p1 = document.createElement('span');
+                $p1.className="name";
+                $p1.innerHTML = recipe[cnt].name;
+                $div3.appendChild($p1);
+                $div2.appendChild($div3);
+                $div1.appendChild($div2);
+                $a.appendChild($div1);
+                $li.appendChild($a);
+                fragment.appendChild($li); 
+            }
+            recipeList.appendChild(fragment);
+          })
+          .catch(function(err){
+              console.log(err);
+          });
 	});
 });
 
-$(document).on('click', '.item-link', function(){
+$(document).on('click', '.food_click', function(){
   // clickイベントで発動する処理
   var foodName = document.getElementById("food-name");
   foodName.value = $(this).children().children().children().children()[0].innerHTML;
