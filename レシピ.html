@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>レシピ追加</title>
+  </head>
+  <!-- 1.SDKの読み込み -->
+	<script src="lib/js/jquery-2.2.0.min.js"></script>
+  <script type="text/javascript" src="lib/js/ncmb.min.js" charset="utf-8"></script>
+  <body>
+    <script>
+      // Global Settings
+      var ncmb = null;
+
+      var recipe = [
+        {name: "肉じゃが", num: "2", contents: [["じゃがいも", "3個"], ["にんじん", "1/2本"], ["たまねぎ", "1/2個"], ["牛肉", "100g"], ["サラダ油", "大さじ1"], ["ダシ汁", "2カップ"], ["酒", "大さじ3"],["砂糖", "大さじ2"], ["醤油", "大さじ3"]], image: "https://img.cpcdn.com/recipes/3666244/280/252081e380d16b2f9047a6269e5b6d21.jpg?u=7160077&p=1454591156"},
+        {name: "ジャーマンポテト", num: "1", contents: [["じゃがいも", "2個"], ["たまねぎ", "1個"], ["ベーコンスライス", "35g"], ["コンソメ", "適量"], ["塩こしょう", "適量"]], image: "https://img.cpcdn.com/recipes/3671493/280/dbc7d6192d0a79ed8bf47f69b1d730b2.jpg?u=13997599&p=1454821222"},
+        {name: "ポトフ", num: "3", contents: [["じゃがいも", "12個"], ["にんじん", "1.5本"], ["たまねぎ", "1個"], ["キャベツ", "1/2個"], ["ウィンナーソーセージ", "8本"], ["水", "1L"], ["ローリエの葉", "1枚"], ["コンソメ", "8g"], ["塩こしょう", "適量"]], image: "https://img.cpcdn.com/recipes/3666244/280/252081e380d16b2f9047a6269e5b6d21.jpg?u=7160077&p=1454591156"},
+        {name: "じゃがいもオムレツ", num: "4", contents: [["じゃがいも", "5個"], ["たまねぎ", "1.2個"], ["ひき肉", "250g"], ["にんにく", "ひとかけ"], ["卵", "6個"], ["砂糖", "大さじ2"], ["塩", "4つまみ"], ["ケチャップ", "適量"]], image: "https://img.cpcdn.com/recipes/3661487/280/7ff77ec69729123c6ce4ff250d30127c.jpg?u=12645732&p=1454410051"},
+        {name: "グラタン", num: "2", contents: [["じゃがいも", "5個"], ["鶏肉", "5個ぐらい"], ["たまねぎ", "1個"], ["牛乳", "450cc"], ["コンソメ", "4g"], ["小麦粉", "大さじ2"], ["ナツメグ", "少々"], ["黒こしょう", "少々"], ["塩こしょう", "少々"], ["ブロッコリー", "1房"], ["ピザチーズ", "適量"]], image: "https://img.cpcdn.com/recipes/3634504/280/a4e14b8f9d4327e1b2d9cd30d8bed335.jpg?u=13711547&p=1453285108"},
+        {name: "コロッケ", num: "1", contents: [["じゃがいも", "3個"], ["たまねぎ", "1/2個"], ["ひき肉", "80g"], ["酒", "小さじ2"], ["油", "小さじ1"], ["塩", "小さじ1/2"], ["こしょう", "少々"], ["しょうゆ", "小さじ1"], ["溶き卵", "適量"], ["パン粉", "適量"], ["揚げ油", "適量"], ["小麦粉", "適量"]], image: "https://img.cpcdn.com/recipes/3654513/280/3fbbedf70dbbe8f98e84a1547f320a49.jpg?u=10447189&p=1454146459"},
+        {name: "ポテトサラダ", num: "3", contents: [["じゃがいも", "5個"], ["にんじん", "1/4本"], ["たまねぎ", "1/4個"], ["きゅうり", "1/2本"], ["ハム", "3枚"], ["マヨネーズ", "適量"], ["塩こしょう", "適量"], ["酢", "小さじ1杯"]], image: "https://img.cpcdn.com/recipes/3679580/280/2ac1534b94d272143e25b0a0921bd6e1.jpg?u=13948374&p=1455115406"},
+        {name: "カレー", num: "5", contents: [["カレールー", "1/2箱"], ["豚肉", "200g"], ["玉ねぎ", "1個"], ["にんじん", "1/2本"], ["じゃがいも", "3個"], ["サラダ油", "大さじ1"], ["水", "650ml"]], image: "https://img.cpcdn.com/recipes/3078063/280/49c22002feab8e96134814383fa07133.jpg?u=11985343&p=1452660952"},
+        {name: "クリームシチュー", num: "4", contents: [["豚肉", "200g"], ["じゃがいも", "3個"], ["にんじん", "1本"], ["たまねぎ", "1個"], ["ウィンナーソーセージ", "4本"], ["ブロッコリー", "1/2房"], ["カリフラワー", "1/2房"], ["バター", "20g"], ["塩こしょう", "少々"], ["酒", "大さじ1"], ["牛乳", "100cc"], ["コンソメ", "8g"], ["シチュールー", "1/2箱"]], image: "https://img.cpcdn.com/recipes/3504732/280/83eb1d5a573d7bf519a4d2f5452f14bf.jpg?u=6985532&p=1446980615"},
+        {name: "ミネストローネ", num: "4", contents: [["トマト缶", "1缶"], ["水", "400cc"], ["にんにく", "1かけ"], ["ベーコン", "3枚"], ["たまねぎ", "1個"], ["にんじん", "2/3本"], ["じゃがいも", "1個"], ["コンソメ", "4g"], ["塩", "適量"], ["砂糖", "小さじ1"], ["ハーブミックス", "適量"]], image: "https://img.cpcdn.com/recipes/3678867/280/a3872c6d13f48668944b7ddb1d853a12.jpg?u=4401399&p=1455272555"},
+      ];
+
+      // Set up
+      $(function() {
+      	$.getJSON("settings.json", function(data) {
+      		ncmb = new NCMB(data.application_key, data.client_key);
+      		console.log(ncmb);
+
+          var Recipe = ncmb.DataStore("Recipe");
+          // 3.TestClassへの入出力
+          Recipe.equalTo("name", "肉じゃが")
+                   .fetchAll()
+                   .then(function(results){
+                     if(results[0] != null){
+                       alert(results[0].get("name"));
+                     }else{
+                       for(var i = 0; i < recipe.length; i++){
+                         var newRecipe = new Recipe(recipe[i]);
+                         newRecipe.save()
+                       }
+                       /*
+                       .then(function(){
+                        alert("recipes are saved.");
+                        })
+                        .catch(function(err){
+                          alert(err.text);
+                        });
+                        */
+                        alert("recipes are saved.");
+                     }
+                   })
+                   .catch(function(err){
+                    alert(err.text);
+                   });
+
+      	});
+      });
+
+
+    </script>
+  </body>
+</html>
