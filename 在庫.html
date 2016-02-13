@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>コンテンツ追加</title>
+  </head>
+  <!-- 1.SDKの読み込み -->
+	<script src="lib/js/jquery-2.2.0.min.js"></script>
+  <script type="text/javascript" src="lib/js/ncmb.min.js" charset="utf-8"></script>
+  <body>
+    <script>
+      var ncmb = null;
+
+	  var contents = [
+		  "じゃがいも", 5,
+		  "にんじん", 3,
+		  "たまねぎ", 3,
+		  "豚肉", 1,
+		  "ひき肉", 1,
+		  "にんにく", 1,
+		  "卵", 6,
+		  "砂糖", 1,
+		  "塩", 1,
+		  "ケチャップ", 1,
+	  ]
+
+	  $(function() {
+		  $.getJSON("settings.json", function(data) {
+			  ncmb = new NCMB(data.application_key, data.client_key);
+			  console.log(ncmb);
+
+			  var Content = ncmb.DataStore("Contents");
+			  for (var i = 0; i < contents.length; i += 2) {
+				  for (var j = 0; j < contents[i+1]; j++) {
+					  var newContent = new Content({"name": contents[i]});
+					  newContent.save();
+				  }
+			  }
+			  alert("contents are saved.");
+		  });
+	  });
+    </script>
+  </body>
+</html>
