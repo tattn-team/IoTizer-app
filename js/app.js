@@ -10,6 +10,7 @@ $(function() {
 		ncmb = new NCMB(data.application_key, data.client_key);
         Contents = ncmb.DataStore("Contents");
         Contents.equalTo("*")
+          .order("name",false)
           .fetchAll()
           .then(function(foods) {
             var foodList = document.getElementById("foodList");
@@ -19,7 +20,6 @@ $(function() {
                 var $li = document.createElement('li');
                 var $a = document.createElement('a');
                 $a.href = "#form";
-                // $a.setAttribute('onClick', 'clickEvent()');
                 $a.className = 'item-link';
                 $a.id = foods[cnt].objectId;
                 var $div1 = document.createElement('div');
@@ -29,18 +29,16 @@ $(function() {
                 var $div3 = document.createElement('div');
                 $div3.className = 'item-title';
                 $div3.id = cnt.toString();
-                var $p1 = document.createElement('span');
+                var $p1 = document.createElement('div');
                 $p1.className="name";
                 $p1.innerHTML = foods[cnt].name;
-                // var $p2 = document.createElement('span');
-                // $p2.className="category";
-                // $p2.innerHTML = foods[cnt].category;
-                // var $p3 = document.createElement('span');
-                // $p3.className="freshnessDate";
-                // $p3.innerHTML = foods[cnt].freshnessDate;
+                var $p2 = document.createElement('span');
+                $p2.style = "font-size:12px";
+                $p2.className="date";
+                var date = new Date(foods[cnt].createDate);
+                $p2.innerHTML = "追加日："+date.toLocaleDateString();
                 $div3.appendChild($p1);
-                // $div3.appendChild($p2);
-                // $div3.appendChild($p3);
+                $div3.appendChild($p2);
                 $div2.appendChild($div3);
                 $div1.appendChild($div2);
                 $a.appendChild($div1);
@@ -48,6 +46,7 @@ $(function() {
                 fragment.appendChild($li); 
             }
             foodList.appendChild(fragment);
+            console.log(foodList);
           })
           .catch(function(err){
               console.log(err);
@@ -82,19 +81,16 @@ $(document).on('click', '#update', function(){
 
 
 $(document).on('click', '#delete', function(){
-    if(window.confirm('本当に削除しますか？')){
-        // delete content
-        var food = document.getElementById("food-name");
-        document.getElementById(food.className).remove()
-        Contents.equalTo("objectId",food.className)
-          .fetchAll()
-          .then(function(content) {
-            content[0].delete();
-          })
-          .catch(function(err){
-            console.log(err);
-          });
-    }
-    else{
-    }
+    // delete content
+    var food = document.getElementById("food-name");
+    document.getElementById(food.className).remove()
+    Contents.equalTo("objectId",food.className)
+      .fetchAll()
+      .then(function(content) {
+        content[0].delete();
+      })
+      .catch(function(err){
+        console.log(err);
+      });
+      alert("削除しました．");
 });
